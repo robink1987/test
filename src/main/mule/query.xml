@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="e4c09254-7aac-4c83-814c-1a6c66e733a6" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="queryFlow" doc:id="a0f64cad-f011-4dff-b15a-cf53cb09a71d" >
+		<http:listener doc:name="Listener" doc:id="8e068aee-ccd1-41c2-bb5f-c8d9fb95b14f" path="/p" config-ref="HTTP_Listener_config"/>
+		<set-variable value="robin" doc:name="Set Variable" doc:id="3f56a960-dc25-4f3e-bc58-4329b25ac65c" variableName="fn"/>
+		<flow-ref doc:name="Flow Reference" doc:id="cb02b56d-5ed4-4942-bdab-f139f55d8906" name="queryFlow1" target="ln" targetValue="#[payload]"/>
+		<logger level="INFO" doc:name="Logger" doc:id="b88890d6-d26c-4e19-9bd5-9399b9ce6d64" message='#[vars.fn ++ " " ++ vars.ln]'/>
+		<set-payload doc:name="Set Payload" doc:id="76df9df5-7041-415f-b289-8cd36cf5df62" value='#[vars.fn ++ " "++ vars.ln]'/>
+	</flow>
+	<flow name="queryFlow1" doc:id="53891efe-8dbe-478d-bdf0-cc2c6cfadff6" >
+		<set-payload value="koirala" doc:name="Set Payload" doc:id="4027c190-cfec-40af-923c-9a78d195cfc0" />
+		<set-variable value="Koirala" doc:name="Set Variable" doc:id="bda7dc4e-5605-42a5-a40f-998987a0e0f9" variableName="ln"/>
+	</flow>
+</mule>
